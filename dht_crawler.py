@@ -2,6 +2,7 @@
 
 import socket
 from threading import Timer, Thread
+from time import sleep
 from queue import Queue
 from bencode import bencode, bdecode
 import dht_id
@@ -20,20 +21,17 @@ class dhtcrawler(Thread):
         self.nodes = Queue(maxsize = max_node_size)
         self.crawler_nid = dht_id.gen_random_nid()
         self.is_crawling = False
+        self.join_dht_thread = Thread(target=self.join_dht)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self.sock.bind((self.ip, self.port))
 
     def run(self):
         self.is_crawling = True
-        self.join_dht()
-        Timer(10, self.join_dht).start()
+        self.join_dht_thread.start()
         while self.is_crawling:
-            try:
                 (data, address) = self.sock.recvfrom(65536)
                 msg = bdecode(data)
                 self.process_message(msg, address)
-            except Exception:
-                pass
 
     def join_dht(self):
         while self.is_crawling:
@@ -43,6 +41,7 @@ class dhtcrawler(Thread):
             else:
                 node = self.nodes.get()
                 self.find_node((node.ip, node.port))
+            sleep(3)
 
 
 

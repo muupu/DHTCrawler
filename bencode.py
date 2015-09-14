@@ -50,10 +50,10 @@ decode_func['8'] = decode_string
 decode_func['9'] = decode_string
 
 def bdecode(bdata):
-    try:
-        r, l = decode_func[chr(bdata[0])](bdata, 0)
-    except (IndexError, KeyError, ValueError):
-        raise Exception("not a valid bencoded string")
+    # try:
+    r, l = decode_func[chr(bdata[0])](bdata, 0)
+    # except (IndexError, KeyError, ValueError):
+    #     raise Exception("not a valid bencoded string")
     #if l != len(x):
     #    raise Exception("invalid bencoded value (data after valid prefix)")
     return r
