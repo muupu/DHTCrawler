@@ -6,6 +6,7 @@ from time import sleep
 from queue import Queue
 from bencode import bencode, bdecode
 import dht_id
+import dht_message
 
 INIT_NODES = (
     ("router.bittorrent.com", 6881),
@@ -30,8 +31,8 @@ class dhtcrawler(Thread):
         self.join_dht_thread.start()
         while self.is_crawling:
                 (data, address) = self.sock.recvfrom(65536)
-                # msg = bdecode(data)
-                self.process_message(data, address)
+                msg = bdecode(data)
+                dht_message.process_message(msg, address)
 
     def join_dht(self):
         while self.is_crawling:

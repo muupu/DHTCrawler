@@ -8,25 +8,25 @@ class TestBdecode(unittest.TestCase):
 
     def test_decode_string(self):
         bstr = b'3:abc'
-        self.assertEqual(('abc', 5), decode_string(bstr, 0))
+        self.assertEqual((b'abc', 5), decode_string(bstr, 0))
 
     def test_decode_list(self):
         bstr = b'l4:spam4:eggse'
         # r, de_index = decode_list(bstr, 0)
         # self.assertListEqual([b'spam',b'eggs'], r)
         # self.assertEquals(14, de_index)
-        self.assertEqual((['spam', 'eggs'], 14), decode_list(bstr, 0))
+        self.assertEqual(([b'spam', b'eggs'], 14), decode_list(bstr, 0))
 
     def test_decode_dict(self):
         bstr = b'd2:id4:spam6:target4:eggse'
         # r, de_index = decode_list(bstr, 0)
         # self.assertListEqual([b'spam',b'eggs'], r)
         # self.assertEquals(14, de_index)
-        self.assertEqual(({"id":"spam", "target":"eggs"}, 26), decode_dict(bstr, 0))
+        self.assertEqual(({b"id":b"spam", b"target":b"eggs"}, 26), decode_dict(bstr, 0))
 
     def test_bdecode(self):
         bstr = b'd1:ad2:id20:abcdefghij01234567896:target20:mnopqrstuvwxyz123456e1:q9:find_node1:t2:aa1:y1:qe'
-        bdestr = {"t":"aa", "y":"q", "q":"find_node", "a": {"id":"abcdefghij0123456789", "target":"mnopqrstuvwxyz123456"}}
+        bdestr = {b"t":b"aa", b"y":b"q", b"q":b"find_node", b"a": {b"id":b"abcdefghij0123456789", b"target":b"mnopqrstuvwxyz123456"}}
         self.assertEqual(bdestr, bdecode(bstr))
 
 

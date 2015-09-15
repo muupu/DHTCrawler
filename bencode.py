@@ -17,7 +17,7 @@ def decode_string(bdata, de_index):
     if bdata[de_index] == b'0' and colon != de_index+1:
         raise ValueError
     colon += 1
-    return (bdata[colon:colon+n].decode('utf-8'), colon+n)
+    return (bdata[colon:colon+n], colon+n)
 
 def decode_list(bdata, de_index):
     r, de_index = [], de_index+1

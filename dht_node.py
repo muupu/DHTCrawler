@@ -1,5 +1,8 @@
 # -*- coding:utf-8 -*-
 
+
+
+
 class Node:
 
     def __init__(self, node_id, node_ip, node_port):
