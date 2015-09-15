@@ -24,6 +24,15 @@ def process_find_node_response(crawler, msg, address):
 
 
 def process_request(crawler, msg, address):
-    pass
+    if b'q' in msg:
+        if msg[b'q'] == b'ping':
+            print('ping request\n')
+        elif msg[b'q'] == b'find_node':
+            print('find_node request\n')
+        elif msg[b'q'] == b'get_peers':
+            print('get_peers request\n')
+        elif msg[b'q'] == b'announce_peer':
+            print('announce_peer request\n')
+
 
 
