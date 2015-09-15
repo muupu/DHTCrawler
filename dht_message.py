@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-
+import dht_node
 
 def process_message(msg, address):
     # print('Received from %s:%s.\n' % address, msg)
@@ -14,7 +14,8 @@ def process_response(msg, address):
         process_find_node_response(msg, address)
 
 def process_find_node_response(msg, address):
-    pass
+    bnodes = msg[b'r'][b'nodes']
+    nodes = dht_node.decode_nodes(bnodes)
 
 def process_request(msg, address):
     pass
