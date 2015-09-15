@@ -32,7 +32,7 @@ class dhtcrawler(Thread):
         while self.is_crawling:
                 (data, address) = self.sock.recvfrom(65536)
                 msg = bdecode(data)
-                dht_message.process_message(msg, address)
+                dht_message.process_message(self, msg, address)
 
     def join_dht(self):
         while self.is_crawling:
@@ -58,6 +58,7 @@ class dhtcrawler(Thread):
         }
         bquery = bencode(query)
         self.sock.sendto(bquery, node)
+
 
     def stop(self):
         self.is_crawling = False
