@@ -36,14 +36,14 @@ class dhtcrawler(Thread):
 
     def join_dht(self):
         while self.is_crawling:
-            while self.nodes.qsize() > 0:
+            if self.nodes.qsize() > 0:
                 node = self.nodes.get()
-                self.find_node((node.ip, node.port))
+                self.send_find_node((node.ip, node.port))
             for init_node in INIT_NODES:
-                self.find_node(init_node)
+                self.send_find_node(init_node)
             sleep(3)
 
-    def find_node(self, node):
+    def send_find_node(self, node):
         query = {
             "t" : dht_id.gen_tid(),
             "y" : "q",
