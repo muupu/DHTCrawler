@@ -14,7 +14,7 @@ def process_response(crawler, msg, address):
         process_find_node_response(crawler,msg, address)
 
 def process_find_node_response(crawler, msg, address):
-    print('find node response\n')
+    print('find node response')
     bnodes = msg[b'r'][b'nodes']
     nodes = dht_node.decode_nodes(bnodes)
     for node in nodes:
@@ -27,13 +27,13 @@ def process_find_node_response(crawler, msg, address):
 def process_request(crawler, msg, address):
     if b'q' in msg:
         if msg[b'q'] == b'ping':
-            print('ping request\n')
+            print('ping request')
         elif msg[b'q'] == b'find_node':
-            print('find_node request\n')
+            print('find_node request')
         elif msg[b'q'] == b'get_peers':
-            print('get_peers request\n')
+            print('get_peers request')
         elif msg[b'q'] == b'announce_peer':
-            print('announce_peer request\n')
+            print('announce_peer request')
 
 
 
