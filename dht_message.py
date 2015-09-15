@@ -14,6 +14,7 @@ def process_response(crawler, msg, address):
         process_find_node_response(crawler,msg, address)
 
 def process_find_node_response(crawler, msg, address):
+    print('find node response\n')
     bnodes = msg[b'r'][b'nodes']
     nodes = dht_node.decode_nodes(bnodes)
     for node in nodes:
