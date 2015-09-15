@@ -10,7 +10,7 @@ def process_message(crawler, msg, address):
             process_request(crawler, msg, address)
 
 def process_response(crawler, msg, address):
-    if msg[b"r"].has_key(b"nodes"):
+    if b"nodes" in msg[b"r"]:
         process_find_node_response(crawler,msg, address)
 
 def process_find_node_response(crawler, msg, address):
