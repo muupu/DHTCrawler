@@ -22,8 +22,8 @@ def decode_string(bdata, de_index):
 def decode_list(bdata, de_index):
     r, de_index = [], de_index+1
     while chr(bdata[de_index]) != 'e':
-        #print('%d\n' % b'4')
-        v, de_index = decode_func[chr(bdata[de_index])](bdata, de_index)
+        # print('%d\n' % b'4')
+        v, de_index = decode_func(bdata, de_index)
         r.append(v)
     return (r, de_index + 1)
 
@@ -31,27 +31,25 @@ def decode_dict(bdata, de_index):
     r, de_index = {}, de_index+1
     while chr(bdata[de_index]) != 'e':
         k, de_index = decode_string(bdata, de_index)
-        r[k], de_index = decode_func[chr(bdata[de_index])](bdata, de_index)
+        r[k], de_index = decode_func(bdata, de_index)
     return (r, de_index + 1)
 
-decode_func = {}
-decode_func['l'] = decode_list
-decode_func['d'] = decode_dict
-decode_func['i'] = decode_int
-decode_func['0'] = decode_string
-decode_func['1'] = decode_string
-decode_func['2'] = decode_string
-decode_func['3'] = decode_string
-decode_func['4'] = decode_string
-decode_func['5'] = decode_string
-decode_func['6'] = decode_string
-decode_func['7'] = decode_string
-decode_func['8'] = decode_string
-decode_func['9'] = decode_string
+def decode_func(bdata, de_index):
+    if chr(bdata[de_index]) == 'i':
+        r, de_index = decode_int(bdata, de_index)
+    elif chr(bdata[de_index]).isdigit():
+        r, de_index = decode_string(bdata, de_index)
+    elif chr(bdata[de_index]) == 'l':
+        r, de_index = decode_list(bdata, de_index)
+    elif chr(bdata[de_index]) == 'd':
+        r, de_index = decode_dict(bdata, de_index)
+    else:
+        raise ValueError
+    return r, de_index
 
 def bdecode(bdata):
     # try:
-    r, l = decode_func[chr(bdata[0])](bdata, 0)
+    r, l = decode_func(bdata, 0)
     # except (IndexError, KeyError, ValueError):
     #     raise Exception("not a valid bencoded string")
     #if l != len(x):
