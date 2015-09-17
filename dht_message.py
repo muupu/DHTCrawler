@@ -29,11 +29,12 @@ def process_request(crawler, msg, address):
         if msg[b'q'] == b'ping':
             print('ping request')
         elif msg[b'q'] == b'find_node':
-            print('find_node request')
+            process_find_node_request(crawler, msg, address)
         elif msg[b'q'] == b'get_peers':
             print('get_peers request')
         elif msg[b'q'] == b'announce_peer':
             print('announce_peer request')
 
-
-
+def process_find_node_request(crawler, msg, address):
+    print('find_node request')
+    
