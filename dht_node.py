@@ -4,7 +4,7 @@ import struct
 from collections import deque
 
 def decode_nodes(compact_nodes):
-    nodes = deque()
+    nodes = []
     length = len(compact_nodes)
     if (length % 26) != 0:
         return nodes
@@ -14,6 +14,14 @@ def decode_nodes(compact_nodes):
         node_port = struct.unpack("!H", compact_nodes[i+24:i+26])[0]
         nodes.append(Node(node_id, node_ip, node_port))
     return nodes
+
+def encode_nodes(nodes):
+    compact_nodes = b''
+    for node in nodes:
+        compact_nodes += node.nid
+        compact_nodes += socket.inet_aton(node.ip)
+        compact_nodes += struct.pack("!H", node.port)
+    return compact_nodes
 
 class Node:
 
@@ -35,3 +43,5 @@ class Nodes:
     def pop(self):
         return self.nodes.popleft()
 
+    def get_close_nodes(self):
+        return self.nodes[:8]
