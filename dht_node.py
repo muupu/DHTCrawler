@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 import socket
 import struct
+from collections import deque
 
 def decode_nodes(compact_nodes):
-    nodes = []
+    nodes = deque()
     length = len(compact_nodes)
     if (length % 26) != 0:
         return nodes
@@ -20,3 +21,17 @@ class Node:
         self.nid = node_id
         self.ip = node_ip
         self.port = node_port
+
+
+class Nodes:
+
+    def __init__(self, max_node_qsize):
+        self.max_node_qsize = max_node_qsize
+        self.nodes = deque(maxlen=max_node_qsize)
+
+    def add(self, nodes):
+        self.nodes.extend(nodes)
+
+    def pop(self):
+        return self.nodes.popleft()
+
