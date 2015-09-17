@@ -41,7 +41,10 @@ class Nodes:
         return len(self.nodes)
 
     def add(self, node):
-            self.nodes.append(node)
+        self.nodes.append(node)
+
+    def adds(self, nodes):
+        self.nodes.extend(nodes)
 
     def pop(self):
         return self.nodes.pop()
