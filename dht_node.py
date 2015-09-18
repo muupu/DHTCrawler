@@ -25,7 +25,7 @@ def encode_nodes(nodes):
 
 class Node:
 
-    def __init__(self, nid, ip, port):
+    def __init__(self, nid=None, ip, port):
         self.nid = nid
         self.ip = ip
         self.port = port
