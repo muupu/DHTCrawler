@@ -1,0 +1,7 @@
+
+- process_find_node_request
+
+- process_request(multiple threading)
+
+- Nodes class's race condition problem in multiple threading
+  use queue.Queue
