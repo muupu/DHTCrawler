@@ -25,10 +25,10 @@ def encode_nodes(nodes):
 
 class Node:
 
-    def __init__(self, node_id, node_ip, node_port):
-        self.nid = node_id
-        self.ip = node_ip
-        self.port = node_port
+    def __init__(self, nid, ip, port):
+        self.nid = nid
+        self.ip = ip
+        self.port = port
 
 
 class Nodes:
