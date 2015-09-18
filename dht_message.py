@@ -37,4 +37,6 @@ def process_request(crawler, msg, address):
 
 def process_find_node_request(crawler, msg, address):
     print('find_node request')
-    
+    # 加入nodes
+    # 发送response
+
