@@ -38,6 +38,13 @@ def process_request(crawler, msg, address):
         elif msg[b'q'] == b'announce_peer':
             print('announce_peer request')
 
+def send_response(socket, address, response):
+    bresponse = bencode(response)
+    send_message(socket, address, bresponse)
+
+def send_message(socket, address, msg):
+    socket.sendto(msg, address)
+
 def process_find_node_request(crawler, msg, address):
     print('find_node request')
     # 加入nodes
