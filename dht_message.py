@@ -21,7 +21,7 @@ def process_find_node_response(crawler, msg, address):
         if node.nid == crawler.crawler_nid:
             continue
         # crawler.nodes.append(dht_node.Node(node.nid, node.ip, node.port))
-        crawler.nodes.put(node)
+        crawler.nodes.add(node)
 
 
 def process_request(crawler, msg, address):
