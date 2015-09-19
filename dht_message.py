@@ -29,6 +29,8 @@ def process_request(crawler, msg, address):
     if b'q' in msg:
         if msg[b'q'] == b'ping':
             print('ping request')
+            process_ping_request(crawler, msg, address)
+
         elif msg[b'q'] == b'find_node':
             process_find_node_request(crawler, msg, address)
         elif msg[b'q'] == b'get_peers':
@@ -54,3 +56,13 @@ def process_find_node_request(crawler, msg, address):
     bresponse = bencode(response)
     crawler.sock.sendto(bresponse, address)
 
+def process_ping_request(crawler, msg, address):
+    # 加入nodes
+    crawler.nodes.add(dht_node.Node(msg[b'a'][b'id'], address[0], address[1]))
+    response = {
+        't':msg[b't'],
+        'y':'r',
+        'r':{'id':crawler.crawler_nid}
+    }
+    bresponse = bencode(response)
+    crawler.sock.sendto(bresponse, address)
