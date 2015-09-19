@@ -33,8 +33,11 @@ class dhtcrawler(Thread):
         self.join_dht_thread.start()
         while self.is_crawling:
                 (data, address) = self.sock.recvfrom(65536)
-                msg = bdecode(data)
-                dht_message.process_message(self, msg, address)
+                try:
+                    msg = bdecode(data)
+                    dht_message.process_message(self, msg, address)
+                except Exception as e:
+                    print('Exception:', e)
 
     def join_dht(self):
         while self.is_crawling:
