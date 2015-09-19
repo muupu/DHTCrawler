@@ -61,4 +61,7 @@ class Nodes:
         return self.nodes.popleft()
 
     def get_close_nodes(self):
-        return self.nodes[:8]
+        if len(self.nodes) >= 8:
+            return self.nodes[:8]
+        else:
+            return self.nodes[:len(self.nodes)]
