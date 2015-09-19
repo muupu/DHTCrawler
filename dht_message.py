@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import dht_node
+from bencode import bencode, bdecode
 
 def process_message(crawler, msg, address):
     # print('Received from %s:%s.\n' % address, msg)
@@ -38,5 +39,18 @@ def process_request(crawler, msg, address):
 def process_find_node_request(crawler, msg, address):
     print('find_node request')
     # 加入nodes
+    crawler.nodes.add(dht_node.Node(nid=msg[b'a'][b'id'], ip=address[0], port=address[1]))
+    # 最近8个邻居节点信息
+    close_nodes = crawler.nodes.get_close_nodes()
     # 发送response
+    response = {
+        't': msg[b't'],
+        'y':'r',
+        'r':{
+            'id':crawler.crawler_nid,
+            'nodes':dht_node.encode_nodes(close_nodes)
+        }
+    }
+    bresponse = bencode(response)
+    crawler.sock.sendto(bresponse, address)
 
