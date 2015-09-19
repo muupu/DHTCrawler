@@ -40,6 +40,14 @@ class Nodes:
     def __len__(self):
         return len(self.nodes)
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if len(self.nodes) <= 0:
+            raise StopIteration()
+        return self.popleft()
+
     def add(self, node):
         self.nodes.append(node)
 
