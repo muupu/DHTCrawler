@@ -62,6 +62,6 @@ class Nodes:
 
     def get_close_nodes(self):
         if len(self.nodes) >= 8:
-            return self.nodes[:8]
+            return [self.nodes[i] for i in range(8)]
         else:
-            return self.nodes[:len(self.nodes)]
+            return [self.nodes[i] for i in range(len(self.nodes))]
