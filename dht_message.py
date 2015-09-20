@@ -32,6 +32,7 @@ def process_request(crawler, msg, address):
             print('ping request')
             process_ping_request(crawler, msg, address)
         elif msg[b'q'] == b'find_node':
+            print('find_node request')
             process_find_node_request(crawler, msg, address)
         elif msg[b'q'] == b'get_peers':
             print('get_peers request')
@@ -49,7 +50,7 @@ def send_message(socket, address, msg):
 
 
 def process_find_node_request(crawler, msg, address):
-    print('find_node request')
+
     # 加入nodes
     crawler.nodes.add(dht_node.Node(nid=msg[b'a'][b'id'], ip=address[0], port=address[1]))
     # 最近8个邻居节点信息
