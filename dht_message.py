@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import dht_node
 from bencode import bencode, bdecode
+import dht_id
 
 def process_message(crawler, msg, address):
     # print('Received from %s:%s.\n' % address, msg)
@@ -36,6 +37,7 @@ def process_request(crawler, msg, address):
             process_find_node_request(crawler, msg, address)
         elif msg[b'q'] == b'get_peers':
             print('get_peers request')
+            process_get_peers_request(crawler, msg, address)
         elif msg[b'q'] == b'announce_peer':
             print('announce_peer request')
 
@@ -50,9 +52,9 @@ def send_message(socket, address, msg):
 
 
 def process_find_node_request(crawler, msg, address):
-
     # 加入nodes
     crawler.nodes.add(dht_node.Node(nid=msg[b'a'][b'id'], ip=address[0], port=address[1]))
+    print(address[0], address[1])
     # 最近8个邻居节点信息
     close_nodes = crawler.nodes.get_close_nodes()
     # 发送response
@@ -66,6 +68,7 @@ def process_find_node_request(crawler, msg, address):
     }
     send_response(crawler.sock, address, response)
 
+
 def process_ping_request(crawler, msg, address):
     # 加入nodes
     crawler.nodes.add(dht_node.Node(msg[b'a'][b'id'], address[0], address[1]))
@@ -73,5 +76,23 @@ def process_ping_request(crawler, msg, address):
         't':msg[b't'],
         'y':'r',
         'r':{'id':crawler.crawler_nid}
+    }
+    send_response(crawler.sock, address, response)
+
+
+def process_get_peers_request(crawler, msg, address):
+    # 加入nodes
+    crawler.nodes.add(dht_node.Node(nid=msg[b'a'][b'id'], ip=address[0], port=address[1]))
+    # 最近8个邻居节点信息
+    close_nodes = crawler.nodes.get_close_nodes()
+    # 发送response
+    response = {
+        't': msg[b't'],
+        'y':'r',
+        'r':{
+            'id':crawler.crawler_nid,
+            'token':dht_id.gen_random_nid(),
+            'nodes':dht_node.encode_nodes(close_nodes)
+        }
     }
     send_response(crawler.sock, address, response)
