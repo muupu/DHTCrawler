@@ -44,10 +44,10 @@ class dhtcrawler(Thread):
             while len(self.nodes) > 0:
                 node = self.nodes.popleft()
                 self.send_find_node(node)
-                sleep(0.5)
+                # sleep(0.5)
             for init_node in INIT_NODES:
                 self.send_find_node(dht_node.Node(ip = init_node["ip"], port = init_node["port"]))
-            sleep(3)
+            sleep(1)
 
     def send_find_node(self, node):
         query = {
