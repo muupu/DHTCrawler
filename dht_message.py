@@ -40,6 +40,7 @@ def process_request(crawler, msg, address):
             process_get_peers_request(crawler, msg, address)
         elif msg[b'q'] == b'announce_peer':
             print('announce_peer request')
+            announce_peer_request(crawler, msg, address)
 
 
 def send_response(socket, address, response):
@@ -96,3 +97,8 @@ def process_get_peers_request(crawler, msg, address):
         }
     }
     send_response(crawler.sock, address, response)
+
+
+def announce_peer_request(crawler, msg, address):
+    crawler.nodes.add(dht_node.Node(nid=msg[b'a'][b'id'], ip=address[0], port=address[1]))
+    print(msg[b'a'][b'info_hash'])
