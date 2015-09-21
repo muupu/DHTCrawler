@@ -30,24 +30,28 @@ class dhtcrawler(Thread):
 
     def run(self):
         self.is_crawling = True
+        Timer(3, self.join_dht_init).start()
         self.join_dht_thread.start()
         while self.is_crawling:
-                (data, address) = self.sock.recvfrom(65536)
-                try:
-                    msg = bdecode(data)
-                    dht_message.process_message(self, msg, address)
-                except Exception as e:
-                    print('Exception:', e)
+            (data, address) = self.sock.recvfrom(65536)
+            try:
+                msg = bdecode(data)
+                dht_message.process_message(self, msg, address)
+            except Exception as e:
+                print('Exception:', e)
+
+    def join_dht_init(self):
+        if self.is_crawling and len(self.nodes) == 0:
+            for init_node in INIT_NODES:
+                self.send_find_node(dht_node.Node(ip = init_node["ip"], port = init_node["port"]))
 
     def join_dht(self):
         while self.is_crawling:
             while len(self.nodes) > 0:
                 node = self.nodes.popleft()
                 self.send_find_node(node)
-                # sleep(0.5)
-            for init_node in INIT_NODES:
-                self.send_find_node(dht_node.Node(ip = init_node["ip"], port = init_node["port"]))
-            sleep(1)
+                sleep(0.002)
+
 
     def send_find_node(self, node):
         query = {
