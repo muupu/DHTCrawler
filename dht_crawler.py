@@ -26,6 +26,7 @@ class dhtcrawler(Thread):
         self.crawler_nid = dht_id.gen_random_nid()
         self.is_crawling = False
         self.join_dht_thread = Thread(target=self.join_dht)
+        self.join_dht_thread.setDaemon(True)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self.sock.bind((self.ip, self.port))
 
@@ -50,6 +51,7 @@ class dhtcrawler(Thread):
     def join_dht(self):
         while self.is_crawling:
             while len(self.nodes) > 0:
+                # print("join_dht len(nodes)=", len(self.nodes))
                 node = self.nodes.popleft()
                 self.send_find_node(node)
                 sleep(0.002)
