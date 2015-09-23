@@ -18,7 +18,7 @@ INIT_NODES = (
 class dhtcrawler(Thread):
     def __init__(self, ip, port, max_node_size):
         Thread.__init__(self)
-        self.setDaemon(True)
+        # self.setDaemon(True)
         self.ip = ip
         self.port = port
         # self.nodes = Queue(maxsize = max_node_size)
@@ -31,7 +31,8 @@ class dhtcrawler(Thread):
 
     def run(self):
         self.is_crawling = True
-        Timer(3, self.join_dht_init).start()
+        self.join_dht_init()
+        Timer(2, self.join_dht_init).start()
         self.join_dht_thread.start()
         while self.is_crawling:
             (data, address) = self.sock.recvfrom(65536)
@@ -72,5 +73,5 @@ class dhtcrawler(Thread):
         self.is_crawling = False
 
 if __name__ == "__main__":
-    dht = dhtcrawler("0.0.0.0", 6881, 100)
+    dht = dhtcrawler("0.0.0.0", 6881, 500)
     dht.start()
