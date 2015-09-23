@@ -44,7 +44,7 @@ def decode_func(bdata, de_index):
     elif chr(bdata[de_index]) == 'd':
         r, de_index = decode_dict(bdata, de_index)
     else:
-        raise ValueError('bdata[de_index]=', chr(bdata[de_index]))
+        raise ValueError('bdata[de_index]=', chr(bdata[de_index], bdata))
     return r, de_index
 
 def bdecode(bdata):
