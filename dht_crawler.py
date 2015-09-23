@@ -33,7 +33,7 @@ class dhtcrawler(Thread):
     def run(self):
         self.is_crawling = True
         self.join_dht_init()
-        Timer(2, self.join_dht_init).start()
+        Timer(3, self.join_dht_init).start()
         self.join_dht_thread.start()
         while self.is_crawling:
             (data, address) = self.sock.recvfrom(65536)
@@ -54,7 +54,7 @@ class dhtcrawler(Thread):
                 # print("join_dht len(nodes)=", len(self.nodes))
                 node = self.nodes.popleft()
                 self.send_find_node(node)
-                sleep(0.002)
+                sleep(0.02)
 
 
     def send_find_node(self, node):
