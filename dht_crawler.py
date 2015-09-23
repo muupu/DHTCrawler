@@ -18,6 +18,7 @@ INIT_NODES = (
 class dhtcrawler(Thread):
     def __init__(self, ip, port, max_node_size):
         Thread.__init__(self)
+        self.setDaemon(True)
         self.ip = ip
         self.port = port
         # self.nodes = Queue(maxsize = max_node_size)
